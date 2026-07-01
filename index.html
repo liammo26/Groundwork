@@ -10,7 +10,7 @@
 <meta property="og:title" content="Groundwork — Daily Football Stadium Game" />
 <meta property="og:description" content="Pin where you think the stadium is. One daily puzzle, three rounds, score out of 300. How well do you know UK football grounds?" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://groundwork.football" />
+<meta property="og:url" content="https://groundworkgame.com" />
 
 <!-- Twitter / X card -->
 <meta name="twitter:card" content="summary" />
@@ -1684,6 +1684,7 @@ const COUNTY_POLYGONS = {"Greater London":{"type":"Polygon","coordinates":[[[0.0
   let history = [];            // {name, points}
   let dailyPuzzle = null;      // {easy: [...], medium: [...], hard: [...]} for today's UTC date
   let todayStr = null;         // cached today's UTC date string
+  let savedResult = null;      // the result object loaded from localStorage on revisit
 
   // ---------- helpers ----------
   function shuffle(arr){
@@ -2217,8 +2218,16 @@ const COUNTY_POLYGONS = {"Greater London":{"type":"Polygon","coordinates":[[[0.0
   }
 
   function openWhatsAppShare(){
-    const text = buildWhatsAppShareString(window.location.href);
-    const url = 'https://wa.me/?text=' + encodeURIComponent(text);
+    // Use savedResult if available (covers both fresh completion and revisit after refresh)
+    // so the score in the share text always matches what's shown on screen.
+    const src = savedResult || { totalScore, maxScore: ROUND_ORDER.length * ROUNDS_PER_DIFFICULTY * 100, history };
+    const maxScore = src.maxScore;
+    const lines = (src.history || []).map(h => `⚽ ${h.points}/100`);
+    let msg = `Groundwork — ${todayStr || src.date}\n`;
+    msg += lines.join('\n');
+    msg += `\n\nFinal: ${src.totalScore}/${maxScore}`;
+    msg += `\n${window.location.href}`;
+    const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
     window.open(url, '_blank', 'noopener');
   }
 
@@ -2230,6 +2239,7 @@ const COUNTY_POLYGONS = {"Greater London":{"type":"Polygon","coordinates":[[[0.0
       history: history,
       shareText: buildShareString()
     };
+    savedResult = result;
     try{
       localStorage.setItem('groundwork-daily:' + todayStr, JSON.stringify(result));
     }catch(err){
@@ -2261,6 +2271,7 @@ const COUNTY_POLYGONS = {"Greater London":{"type":"Polygon","coordinates":[[[0.0
   }
 
   function showLockedScreen(result){
+    savedResult = result;
     document.getElementById('launch-screen').classList.add('hidden');
     document.getElementById('final-screen').classList.remove('active');
     document.getElementById('game-screen').classList.remove('active');
