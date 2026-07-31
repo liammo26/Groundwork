@@ -56,7 +56,3 @@ A DOM ID cross-check script also compares `getElementById` calls in the JS again
 - **Archivo Expanded** — display
 - **Lora** (italic) — secondary
 - **JetBrains Mono** — scores and metadata
-
-## License
-
-*(Add your license of choice here.)*
