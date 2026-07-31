@@ -796,15 +796,17 @@ svg.leaflet-image-layer.leaflet-interactive path {
     padding: 28px 40px 36px;
   }
   .rounds-preview{
-    display:flex; gap: 14px; margin-bottom: 28px;
+    display:flex; gap: 0; margin-bottom: 0;
   }
   .round-chip{
     flex:1;
-    border: 1.5px solid var(--pitch-900);
+    border: none;
+    border-left: 1.5px solid var(--pitch-900);
     border-radius: 0;
-    padding: 10px 8px;
+    padding: 12px 8px;
     text-align:center;
   }
+  .round-chip:first-child{ border-left: none; }
   .round-chip .num{
     font-family:'JetBrains Mono', monospace;
     font-size: 11px; letter-spacing:0.1em; color: var(--pitch-700);
@@ -862,14 +864,21 @@ svg.leaflet-image-layer.leaflet-interactive path {
     animation: ballRoll 1.4s cubic-bezier(0.3, 0, 0.6, 1) forwards;
   }
 
-  .stub-rule{
+  .rounds-block{
+    border: 1.5px solid var(--pitch-900);
+    margin-bottom: 28px;
+  }
+  .rounds-heading{
+    background: var(--pitch-900);
+    color: var(--chalk);
     font-family:'JetBrains Mono', monospace;
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 700;
-    color: rgba(245,242,234,0.72);
-    text-align:center;
-    margin-top: 22px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 9px 12px;
+    line-height: 1.5;
   }
 
   /* ================= GAME SCREEN ================= */
@@ -1211,6 +1220,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
   }
 
   @media (max-width: 560px){
+    .rounds-heading{ font-size: 10px; letter-spacing: 0.06em; padding: 8px 10px; }
     .scoreboard{ padding: 8px 12px; gap: 10px; }
     .score-block{ min-width: 44px; }
     .score-block .v{ font-size: 18px; }
@@ -1300,18 +1310,21 @@ svg.leaflet-image-layer.leaflet-interactive path {
           <p class="stub-sub">A daily UK football stadium guessing game.</p>
         </div>
         <div class="stub-bottom">
-          <div class="rounds-preview">
-            <div class="round-chip easy">
-              <div class="num">Round 1</div>
-              <div class="label">Easy</div>
-            </div>
-            <div class="round-chip medium">
-              <div class="num">Round 2</div>
-              <div class="label">Medium</div>
-            </div>
-            <div class="round-chip hard">
-              <div class="num">Round 3</div>
-              <div class="label">Hard</div>
+          <div class="rounds-block">
+            <div class="rounds-heading">Three rounds a day · Score out of 100 per round</div>
+            <div class="rounds-preview">
+              <div class="round-chip easy">
+                <div class="num">Round 1</div>
+                <div class="label">Easy</div>
+              </div>
+              <div class="round-chip medium">
+                <div class="num">Round 2</div>
+                <div class="label">Medium</div>
+              </div>
+              <div class="round-chip hard">
+                <div class="num">Round 3</div>
+                <div class="label">Hard</div>
+              </div>
             </div>
           </div>
           <button class="start-btn" id="start-btn">
@@ -1333,7 +1346,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
         <div class="stub-punch"></div>
         <div class="stub-punch left"></div>
       </div>
-      <div class="stub-rule">THREE ROUNDS A DAY · SCORE OUT OF 100 PER ROUND</div>
     </div>
   </div>
 
